@@ -5,10 +5,12 @@ const userRoutes = require('./routes/userRoutes');
 
 const PORT = process.env.PORT || 3000;
 
+fastify.register(require('fastify-jwt'), { secret: process.env.JWT_SECRET });
+fastify.register(userRoutes, { prefix: '/api/user' });
+
 fastify.get('/heartbeat', (req, res) => {
   res.code(200).send('Server is working correctly');
 });
-fastify.register(userRoutes, { prefix: '/api/user' });
 
 async function startServer() {
   try {
