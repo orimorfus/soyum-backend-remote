@@ -1,5 +1,4 @@
-// controllers/userController.js
-const User = require('../schemas/User');
+const { User, Blacklist } = require('../schemas');
 const { hashPassword, generateToken, comparePasswords } = require('../utils/auth');
 
 const register = async (req, reply) => {
@@ -55,7 +54,28 @@ const login = async (req, reply) => {
   });
 };
 
+const deleteAccount = async (req, reply) => {
+  const userId = req.user.id;
+  const { password } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return reply.status(404).send('User not found');
+  }
+
+  const validPassword = await comparePasswords(password, user.password);
+  if (!validPassword) {
+    return reply.status(400).send('Invalid password');
+  }
+
+  await User.findByIdAndDelete(userId);
+
+  reply.send('User deleted successfully');
+};
+
 module.exports = {
   register,
   login,
+  logout,
+  deleteAccount,
 };
