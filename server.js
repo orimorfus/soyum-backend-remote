@@ -66,9 +66,9 @@ fastify.get('/heartbeat', (req, res) => {
 async function startServer() {
   try {
     await connectDb();
-    fastify.listen({ port: port });
+    await fastify.listen({ port: port });
   } catch (error) {
-    console.error(`Server running on port ${port}`);
+    console.error(`something went wrong`, error);
   }
 }
 
