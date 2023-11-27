@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "fastify": "^4.24.3",
@@ -19,6 +20,7 @@
     "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
+    "crypto": "^1.0.1",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
