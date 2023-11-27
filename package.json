@@ -4,19 +4,25 @@
   "description": "backend server for recipe site ",
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./server.js",
-    "dev": "cross-env NODE_ENV=development onchange './**/*.js' -- node server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server.js",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
   },
   "dependencies": {
+    "@fastify/cors": "^8.4.1",
+    "@fastify/jwt": "^7.2.4",
+    "@fastify/static": "^6.12.0",
+    "@fastify/swagger": "^8.12.0",
+    "@fastify/swagger-ui": "^1.10.1",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "fastify": "^4.24.3",
-    "fastify-jwt": "^4.2.0",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.0",
+    "pino-pretty": "^10.2.3",
+    "rotating-file-stream": "^3.1.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
@@ -28,7 +34,7 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
-    "onchange": "^7.1.0"
+    "nodemon": "^3.0.1"
   },
   "author": "Feiron",
   "license": "ISC"
