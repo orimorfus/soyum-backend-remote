@@ -2,11 +2,11 @@ node_modules/
 .idea
 .vscode
 .env
-logs.log
+*.log
 !/routes/
 !/controllers/
 !/middlewares/
-!/models/
+!/schemas/
 !/routes/api/
 !/services/
 !/utils/email/
