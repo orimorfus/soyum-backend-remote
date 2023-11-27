@@ -41,6 +41,10 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  accountExpiresAt: {
+    type: Date,
+    default: Date.now() + 365 * 24 * 60 * 60 * 1000,
+  },
 });
 
 module.exports = mongoose.model('User', UserSchema);

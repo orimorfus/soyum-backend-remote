@@ -1,4 +1,4 @@
-const { register, login, logout, deleteAccount } = require('../controllers/userController');
+const { register, login, logout, deleteAccount } = require('./controllers/user');
 const verifyJWT = require('../middleware/authMiddleware');
 
 module.exports = (fastify, opts, done) => {
