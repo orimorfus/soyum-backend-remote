@@ -1,5 +1,5 @@
-const { User } = require('../schemas');
-const { comparePasswords } = require('../utils/auth');
+const { User } = require('../../schemas');
+const { comparePasswords } = require('../../utils/auth');
 
 const deleteAccountController = async (req, reply) => {
   const userId = req.user.id;

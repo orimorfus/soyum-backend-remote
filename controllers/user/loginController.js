@@ -1,5 +1,5 @@
-const { User } = require('../schemas');
-const { generateToken, comparePasswords } = require('../utils/auth');
+const { User } = require('../../schemas');
+const { generateToken, comparePasswords } = require('../../utils/auth');
 
 const loginController = async (req, reply) => {
   const { email, password } = req.body;

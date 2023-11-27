@@ -1,4 +1,4 @@
-const { Blacklist } = require('../schemas');
+const { Blacklist } = require('../../schemas');
 
 const logoutController = async (req, reply) => {
   const token = req.headers.authorization.split(' ')[1];

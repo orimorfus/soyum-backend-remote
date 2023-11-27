@@ -1,11 +1,11 @@
-const register = require('./register');
-const login = require('./login');
-const logout = require('./logout');
-const deleteAccount = require('./deleteAccount');
+const registerController = require('./registerController');
+const loginController = require('./loginController');
+const logoutController = require('./logoutController');
+const deleteAccountController = require('./deleteAccountController');
 
 module.exports = {
-  register,
-  login,
-  logout,
-  deleteAccount,
+  registerController,
+  loginController,
+  logoutController,
+  deleteAccountController,
 };

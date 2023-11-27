@@ -1,5 +1,10 @@
-const { register, login, logout, deleteAccount } = require('./controllers/user');
-const verifyJWT = require('../middleware/authMiddleware');
+const {
+  registerController,
+  loginController,
+  logoutController,
+  deleteAccountController,
+} = require('../controllers/user');
+const verifyJWT = require('../middleware');
 
 module.exports = (fastify, opts, done) => {
   fastify.post(
@@ -48,7 +53,7 @@ module.exports = (fastify, opts, done) => {
         },
       },
     },
-    register
+    registerController
   );
 
   fastify.post(
@@ -96,7 +101,7 @@ module.exports = (fastify, opts, done) => {
         },
       },
     },
-    login
+    loginController
   );
 
   fastify.get(
@@ -135,7 +140,7 @@ module.exports = (fastify, opts, done) => {
       },
       preValidation: [verifyJWT],
     },
-    logout
+    logoutController
   );
 
   fastify.get(
@@ -174,7 +179,7 @@ module.exports = (fastify, opts, done) => {
       },
       preValidation: [verifyJWT],
     },
-    deleteAccount
+    deleteAccountController
   );
   done();
 };
