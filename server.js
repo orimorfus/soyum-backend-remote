@@ -1,4 +1,7 @@
 require('dotenv').config();
+const connectDb = require('./db/connectDb.js');
+const userRoutes = require('./routes/userRoutes');
+const { PORT, SECRET, HOSTNAME } = require('./envConfig');
 const logger = require('./logs/logsConfig.js');
 
 const fastify = require('fastify')({
@@ -9,17 +12,13 @@ fastify.log.on('error', err => {
   console.error('Error while writing to log file:', err);
 });
 
-const connectDb = require('./db/connectDb');
-const userRoutes = require('./routes/userRoutes');
-const { port, secret, hostname } = require('./envConfig');
-
 fastify.register(require('@fastify/swagger'), {
   swagger: {
     info: {
       title: 'SoYummy',
       version: '1.0.0',
     },
-    host: `${hostname}:${port}`,
+    host: `${HOSTNAME}:${PORT}`,
     schemes: ['http', 'https'],
     consumes: ['application/json'],
     produces: ['application/json'],
@@ -56,19 +55,37 @@ fastify.register(require('@fastify/swagger-ui'), {
   transformSpecificationClone: true,
 });
 
-fastify.register(require('@fastify/jwt'), { secret: secret });
+fastify.register(require('@fastify/jwt'), { secret: SECRET });
 fastify.register(userRoutes, { prefix: '/api/user' });
 
 fastify.get('/heartbeat', (req, res) => {
   res.code(200).send('Server is working correctly');
 });
 
+fastify.setNotFoundHandler((request, reply) => {
+  reply.status(404).send({
+    error: `Sorry, this route does not exist, to see all available routes visit ${HOSTNAME}:${PORT}/docs`,
+  });
+});
+
+fastify.setErrorHandler(function (error, request, reply) {
+  if (error.name === 'ValidationError') {
+    reply.status(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: error.message,
+    });
+  } else {
+    reply.send(error);
+  }
+});
+
 async function startServer() {
   try {
     await connectDb();
-    fastify.listen({ port: port });
+    await fastify.listen({ port: PORT });
   } catch (error) {
-    console.error(`Server running on port ${port}`);
+    console.error(`something went wrong`, error);
   }
 }
 

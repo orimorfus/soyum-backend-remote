@@ -10,7 +10,7 @@ const emailFilter = /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 const passwordFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).*$/;
 const urlFilter = /^(ftp|http|https):\/\/[^ "]+$/;
 
-const UserSchema = new mongoose.Schema({
+const User = new mongoose.Schema({
   name: {
     type: String,
     required: { msg: 'Name is required' },
@@ -37,14 +37,14 @@ const UserSchema = new mongoose.Schema({
     match: [urlFilter, 'Please enter a valid URL'],
     default: '',
   },
-  emailConfirmed: {
+  isEmailConfirmed: {
     type: Boolean,
     default: false,
   },
   accountExpiresAt: {
     type: Date,
-    default: Date.now() + 365 * 24 * 60 * 60 * 1000,
+    default: Date.now() + 365 * 24 * 60 * 60 * 1000, // 1 year
   },
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('users', User);

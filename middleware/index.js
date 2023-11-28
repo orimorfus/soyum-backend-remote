@@ -1,3 +1,3 @@
-const verifyJWT = require('./authMiddleware');
+const accessTokenMiddleware = require('./accessTokenMiddleware');
 
-module.exports = verifyJWT;
+module.exports = accessTokenMiddleware;

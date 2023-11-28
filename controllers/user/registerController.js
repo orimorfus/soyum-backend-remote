@@ -1,31 +1,55 @@
-const { User } = require('../../schemas');
-const { hashPassword, generateToken } = require('../../utils/auth');
+const { User, RefreshToken } = require('../../models');
+const {
+  hashPassword,
+  generateAccessToken,
+  generateRefreshToken,
+} = require('../../utils/tokenUtils');
 
 const registerController = async (req, reply) => {
-  const { name, email, password } = req.body;
+  try {
+    const { name, email, password } = req.body;
 
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    return reply.status(400).send('User with this email already exists');
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return reply.status(400).send({ message: 'User with this email already exists' });
+    }
+
+    const hashedPassword = await hashPassword(password);
+    let user = new User({ name, email, password: hashedPassword });
+
+    user.accountExpiresAt = Date.now() + 365 * 24 * 60 * 60 * 1000; // 1 year
+
+    user = await user.save();
+
+    const accessToken = generateAccessToken(user._id, process.env.ACCESS_TOKEN_EXPIRATION);
+    const refreshToken = generateRefreshToken(
+      user._id,
+      req.headers['user-agent'],
+      process.env.REFRESH_TOKEN_EXPIRATION
+    );
+
+    const refreshTokenDoc = new RefreshToken({
+      token: refreshToken,
+      userId: user._id,
+      device: req.headers['user-agent'],
+    });
+
+    await refreshTokenDoc.save();
+
+    reply.code(201).send({
+      message: 'Registered successfully',
+      user: {
+        name: user.name,
+        email: user.email,
+      },
+      tokens: {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      },
+    });
+  } catch (error) {
+    reply.status(500).send({ error: error.toString() });
   }
-
-  const hashedPassword = await hashPassword(password);
-  const user = new User({ name, email, password: hashedPassword });
-  user.accountExpiresAt = Date.now() + 365 * 24 * 60 * 60 * 1000;
-  await user.save();
-
-  const token = generateToken(user._id);
-
-  reply.code(201).send({
-    message: 'Logged in successfully',
-    user: {
-      name: user.name,
-      email: user.email,
-      avatarUrl: '',
-      emailConfirmed: user.emailConfirmed,
-    },
-    token,
-  });
 };
 
 module.exports = registerController;
