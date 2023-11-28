@@ -11,8 +11,8 @@ module.exports = {
     required: ['name', 'email', 'password'],
   },
   response: {
-    201: {
-      description: 'User registered successfully',
+    200: {
+      description: 'Logged in succesfully ',
       type: 'object',
       properties: {
         message: { type: 'string' },
@@ -21,6 +21,8 @@ module.exports = {
           properties: {
             name: { type: 'string' },
             email: { type: 'string' },
+            avatarUrl: { type: 'string' },
+            isEmailConfirmed: { type: 'boolean' },
           },
         },
         tokens: {
@@ -32,14 +34,14 @@ module.exports = {
         },
       },
     },
-  },
-  500: {
-    description: 'Internal Server Error',
-    type: 'object',
-    properties: {
-      statusCode: { type: 'number' },
-      error: { type: 'string' },
-      message: { type: 'string' },
+    500: {
+      description: 'Internal Server Error',
+      type: 'object',
+      properties: {
+        statusCode: { type: 'number' },
+        error: { type: 'string' },
+        message: { type: 'string' },
+      },
     },
   },
 };

@@ -41,6 +41,8 @@ const registerController = async (req, reply) => {
       user: {
         name: user.name,
         email: user.email,
+        isEmailConfirmed: user.isEmailConfirmed,
+        avatarUrl: user.avatarUrl,
       },
       tokens: {
         accessToken: accessToken,
