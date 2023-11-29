@@ -22,7 +22,7 @@ fastify.register(require('@fastify/jwt'), { secret: SECRET });
 fastify.register(require('@fastify/swagger'), {
   openapi: {
     info: {
-      title: 'SoYummu API',
+      title: 'SoYummy API',
       version: '0.1.0',
     },
     servers: [{ url: `https://${HOSTNAME}` }, { url: 'http://localhost:' + PORT }],
