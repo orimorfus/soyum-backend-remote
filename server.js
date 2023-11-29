@@ -25,7 +25,7 @@ fastify.register(require('@fastify/swagger'), {
       title: 'SoYummu API',
       version: '0.1.0',
     },
-    servers: [{ url: 'http://localhost:' + PORT }, { url: `https://${HOSTNAME}` }],
+    servers: [{ url: `https://${HOSTNAME}` }, { url: 'http://localhost:' + PORT }],
     components: {
       securitySchemes: {
         bearerAuth: {
