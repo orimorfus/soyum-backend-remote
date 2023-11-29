@@ -21,7 +21,8 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.0",
     "pino-pretty": "^10.2.3",
-    "rotating-file-stream": "^3.1.1"
+    "rotating-file-stream": "^3.1.1",
+    "swagger-themes": "^1.2.30"
   },
   "devDependencies": {
     "crypto": "^1.0.1",
