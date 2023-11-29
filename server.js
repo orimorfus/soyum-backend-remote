@@ -17,6 +17,8 @@ fastify.log.on('error', err => {
   console.error('Error while writing to log file:', err);
 });
 
+fastify.register(require('@fastify/jwt'), { secret: SECRET });
+
 fastify.register(require('@fastify/swagger'), {
   swagger: {
     info: {
@@ -62,7 +64,6 @@ fastify.register(require('@fastify/swagger-ui'), {
   transformSpecificationClone: true,
 });
 
-fastify.register(require('@fastify/jwt'), { secret: SECRET });
 fastify.register(userRoutes, { prefix: '/api/user' });
 
 fastify.get('/heartbeat', (req, res) => {

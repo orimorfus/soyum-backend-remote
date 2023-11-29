@@ -12,7 +12,9 @@ const accessTokenMiddleware = async (req, reply) => {
       reply.code(401).send({ error: 'Invalid access token' });
     } else {
       console.error(err.message);
-      reply.code(500).send({ error: 'An error occurred during token verification' });
+      reply
+        .code(500)
+        .send({ error: 'An error occurred during token verification', err: err.toString() });
     }
   }
 };
