@@ -3,7 +3,7 @@ const connectDb = require('./db/connectDb.js');
 const userRoutes = require('./routes/userRoutes');
 const { PORT, SECRET, HOSTNAME } = require('./envConfig');
 const logger = require('./logs/logsConfig.js');
-
+const { registerSwaggerDocs, registerSwaggerUI } = require('./docs/swaggerSettings');
 const fastify = require('fastify')({
   logger: logger,
 });
@@ -19,36 +19,8 @@ fastify.log.on('error', err => {
 
 fastify.register(require('@fastify/jwt'), { secret: SECRET });
 
-fastify.register(require('@fastify/swagger'), {
-  openapi: {
-    info: {
-      title: 'SoYummy API',
-      version: '0.1.0',
-    },
-    servers: [{ url: `https://${HOSTNAME}` }, { url: 'http://localhost:' + PORT }],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-      },
-    },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
-  },
-});
-
-fastify.register(require('@fastify/swagger-ui'), {
-  routePrefix: '/docs',
-  swagger: {
-    openapi: '3.0.0',
-  },
-});
+registerSwaggerDocs(fastify);
+registerSwaggerUI(fastify);
 fastify.register(userRoutes, { prefix: '/api/user' });
 
 fastify.get('/heartbeat', (req, res) => {
