@@ -4,6 +4,7 @@ const {
   logoutController,
   deleteAccountController,
   refreshTokenController,
+  changePasswordController,
 } = require('../controllers/user');
 const accessTokenMiddleware = require('../middleware');
 const {
@@ -12,6 +13,7 @@ const {
   logoutSchema,
   deleteAccountSchema,
   refreshTokenSchema,
+  changePasswordSchema,
 } = require('../schemes');
 
 module.exports = (fastify, opts, done) => {
@@ -38,6 +40,15 @@ module.exports = (fastify, opts, done) => {
       preValidation: [accessTokenMiddleware],
     },
     logoutController
+  );
+
+  fastify.post(
+    '/change-password',
+    {
+      schema: changePasswordSchema,
+      preValidation: [accessTokenMiddleware],
+    },
+    changePasswordController
   );
 
   fastify.delete(

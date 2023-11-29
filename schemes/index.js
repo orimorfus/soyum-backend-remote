@@ -3,6 +3,7 @@ const loginSchema = require('./loginSchema');
 const logoutSchema = require('./logoutSchema');
 const deleteAccountSchema = require('./deleteAccountSchema');
 const refreshTokenSchema = require('./refreshTokenSchema');
+const changePasswordSchema = require('./changePasswordSchema');
 
 module.exports = {
   registerSchema,
@@ -10,4 +11,5 @@ module.exports = {
   logoutSchema,
   deleteAccountSchema,
   refreshTokenSchema,
+  changePasswordSchema,
 };
