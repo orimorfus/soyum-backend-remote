@@ -1,5 +1,5 @@
 const envConfig = {
-  PORT: process.env.NODE_ENV === 'production' ? process.env.PROD_PORT : process.env.DEV_PORT,
+  PORT: process.env.NODE_ENV === 'production' ? process.env.PORT : process.env.DEV_PORT,
   DB_URI:
     process.env.NODE_ENV === 'production'
       ? process.env.PROD_DATABASE_URI
