@@ -27,7 +27,9 @@ fastify.register(require('@fastify/swagger'), {
     produces: ['application/json'],
     securityDefinitions: {
       Bearer: {
-        type: 'key',
+        type: 'apiKey',
+        name: 'Authorization',
+        in: 'header',
         description: 'Enter your JWT here:',
       },
     },
