@@ -17,21 +17,21 @@ const registerController = async (req, reply) => {
     const hashedPassword = await hashPassword(password);
     let user = new User({ name, email, password: hashedPassword });
 
-    user.accountExpiresAt = Date.now() + 365 * 24 * 60 * 60 * 1000; // 1 year
+    user.expiresAt = Date.now() + 365 * 24 * 60 * 60 * 1000; // 1 year
 
     user = await user.save();
 
     const accessToken = generateAccessToken(user._id, process.env.ACCESS_TOKEN_EXPIRATION);
     const refreshToken = generateRefreshToken(
       user._id,
-      req.headers['user-agent'],
+      req.deviceId,
       process.env.REFRESH_TOKEN_EXPIRATION
     );
 
     const refreshTokenDoc = new RefreshToken({
       token: refreshToken,
       userId: user._id,
-      device: req.headers['user-agent'],
+      device: req.deviceId,
     });
 
     await refreshTokenDoc.save();

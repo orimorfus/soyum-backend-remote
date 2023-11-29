@@ -8,6 +8,7 @@ const RefreshToken = require('../../models/RefreshToken');
 const deleteAccountController = async (req, reply) => {
   try {
     const userId = req.user.id;
+    const deviceId = req.deviceId;
     const { password } = req.body;
 
     const user = await User.findById(userId);
@@ -23,12 +24,13 @@ const deleteAccountController = async (req, reply) => {
     const accessToken = req.headers.authorization.split(' ')[1];
     await blacklistAccessToken(accessToken, userId);
 
-    const refreshTokenDocs = await RefreshToken.find({ userId });
+    const refreshTokenDocs = await RefreshToken.find({ userId, deviceId });
     for (const refreshTokenDoc of refreshTokenDocs) {
       await blacklistRefreshToken(
         refreshTokenDoc.token,
         refreshTokenDoc.userId,
-        refreshTokenDoc.expiryDate
+        refreshTokenDoc.deviceId,
+        refreshTokenDoc.expiresAt
       );
     }
 

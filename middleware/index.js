@@ -1,3 +1,4 @@
 const accessTokenMiddleware = require('./accessTokenMiddleware');
+const deviceIdMiddleware = require('./deviceIdMiddleware');
 
-module.exports = accessTokenMiddleware;
+module.exports = { accessTokenMiddleware, deviceIdMiddleware };

@@ -1,8 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { User, RefreshToken } = require('../../models');
 const { generateAccessToken } = require('../../utils/tokenUtils');
+const { Mutex } = require('async-mutex');
+const mutex = new Mutex();
 
 const refreshTokenController = async (req, reply) => {
+  const release = await mutex.acquire();
+
   try {
     const refreshToken = req.body.refreshToken;
     if (!refreshToken) {
@@ -22,9 +26,11 @@ const refreshTokenController = async (req, reply) => {
 
     const newAccessToken = generateAccessToken(userId, process.env.ACCESS_TOKEN_EXPIRATION);
 
-    console.log({ accessToken: newAccessToken });
     reply.send({ accessToken: newAccessToken });
+
+    release();
   } catch (error) {
+    release();
     reply.status(500).send({ error: error.toString() });
   }
 };

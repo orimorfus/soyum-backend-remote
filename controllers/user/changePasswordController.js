@@ -1,7 +1,11 @@
 const { User } = require('../../models');
 const { comparePasswords, hashPassword } = require('../../utils/tokenUtils');
+const { Mutex } = require('async-mutex');
+const mutex = new Mutex();
 
 const changePasswordController = async (req, reply) => {
+  const release = await mutex.acquire();
+
   try {
     const { oldPassword, newPassword } = req.body;
     const userId = req.user.id;
@@ -18,10 +22,14 @@ const changePasswordController = async (req, reply) => {
 
     const hashedNewPassword = await hashPassword(newPassword);
     user.password = hashedNewPassword;
+    user.updatedAt = Date.now();
     await user.save();
 
     reply.send({ message: 'Password changed successfully' });
+
+    release();
   } catch (error) {
+    release();
     reply.status(500).send({ error: error.toString() });
   }
 };

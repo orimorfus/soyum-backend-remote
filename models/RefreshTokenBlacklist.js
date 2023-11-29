@@ -12,6 +12,11 @@ const RefreshTokenBlacklist = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  deviceId: {
+    required: true,
+    type: String,
+    default: '',
+  },
   expiresAt: {
     required: true,
     type: Date,

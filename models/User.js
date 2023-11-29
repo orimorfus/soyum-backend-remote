@@ -41,10 +41,20 @@ const User = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  accountExpiresAt: {
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+  expiresAt: {
     type: Date,
     default: Date.now() + 365 * 24 * 60 * 60 * 1000, // 1 year
   },
 });
 
+User.pre('save', function (next) {
+  if (this.isNew) {
+    this.createdAt = this.updatedAt = Date.now();
+  } else {
+    this.updatedAt = Date.now();
+  }
+  next();
+});
 module.exports = mongoose.model('users', User);

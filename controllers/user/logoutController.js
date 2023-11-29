@@ -6,16 +6,17 @@ const logoutController = async (req, reply) => {
   try {
     const accessToken = req.headers.authorization.split(' ')[1];
     const userId = jwt.decode(accessToken).id;
-    const device = req.headers['user-agent'];
+    const deviceId = req.deviceId;
 
     await blacklistAccessToken(accessToken, userId);
 
-    const refreshTokenDocs = await RefreshToken.find({ userId, device });
+    const refreshTokenDocs = await RefreshToken.find({ userId, deviceId });
     for (const refreshTokenDoc of refreshTokenDocs) {
       await blacklistRefreshToken(
         refreshTokenDoc.token,
         refreshTokenDoc.userId,
-        refreshTokenDoc.expiryDate
+        refreshTokenDoc.deviceId,
+        refreshTokenDoc.expiresAt
       );
     }
 

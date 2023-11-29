@@ -5,40 +5,49 @@ const {
   generateAccessToken,
   generateRefreshToken,
 } = require('../../utils/tokenUtils');
+const { Mutex } = require('async-mutex');
+const mutex = new Mutex();
 
 const loginController = async (req, reply) => {
+  const release = await mutex.acquire();
+
   try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
-      return reply.status(400).send({ message: 'User with this email does not exist' });
+      return reply.status(400).send({ message: 'Invalid credentials' });
     }
 
     const isPasswordValid = await comparePasswords(password, user.password);
     if (!isPasswordValid) {
-      return reply.status(400).send('Invalid password');
+      return reply.status(400).send('Invalid credentials');
     }
 
     const oldRefreshTokens = await RefreshToken.find({
       userId: user._id,
-      device: req.headers['user-agent'],
+      device: req.deviceId,
     });
     for (const oldRefreshToken of oldRefreshTokens) {
-      await blacklistRefreshToken(oldRefreshToken.token, user._id, oldRefreshToken.expiryDate);
+      await blacklistRefreshToken(
+        oldRefreshToken.token,
+        user._id,
+        req.deviceId,
+        oldRefreshToken.expiresAt
+      );
     }
 
     const accessToken = generateAccessToken(user._id, process.env.ACCESS_TOKEN_EXPIRATION);
     const refreshToken = generateRefreshToken(
       user._id,
-      req.headers['user-agent'],
+      req.deviceId,
       process.env.REFRESH_TOKEN_EXPIRATION
     );
 
     const refreshTokenDoc = new RefreshToken({
       token: refreshToken,
       userId: user._id,
-      device: req.headers['user-agent'],
+      device: req.deviceId,
     });
     await refreshTokenDoc.save();
 
@@ -55,7 +64,10 @@ const loginController = async (req, reply) => {
         refreshToken: refreshToken,
       },
     });
+
+    release();
   } catch (error) {
+    release();
     reply.status(500).send({ error: error.toString() });
   }
 };

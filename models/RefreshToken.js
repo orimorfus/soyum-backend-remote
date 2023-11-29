@@ -15,7 +15,7 @@ const RefreshToken = new mongoose.Schema({
     type: String,
     required: true,
   },
-  expiryDate: {
+  expiresAt: {
     type: Date,
     default: Date.now() + ms(process.env.REFRESH_TOKEN_EXPIRATION),
   },

@@ -6,7 +6,7 @@ const {
   refreshTokenController,
   changePasswordController,
 } = require('../controllers/user');
-const accessTokenMiddleware = require('../middleware');
+const { accessTokenMiddleware, deviceIdMiddleware } = require('../middleware');
 const {
   registerSchema,
   loginSchema,
@@ -21,6 +21,7 @@ module.exports = (fastify, opts, done) => {
     '/register',
     {
       schema: registerSchema,
+      preValidation: [deviceIdMiddleware],
     },
     registerController
   );
@@ -29,6 +30,7 @@ module.exports = (fastify, opts, done) => {
     '/login',
     {
       schema: loginSchema,
+      preValidation: [deviceIdMiddleware],
     },
     loginController
   );
@@ -37,7 +39,7 @@ module.exports = (fastify, opts, done) => {
     '/logout',
     {
       schema: logoutSchema,
-      preValidation: [accessTokenMiddleware],
+      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
     },
     logoutController
   );
@@ -46,7 +48,7 @@ module.exports = (fastify, opts, done) => {
     '/change-password',
     {
       schema: changePasswordSchema,
-      preValidation: [accessTokenMiddleware],
+      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
     },
     changePasswordController
   );
@@ -55,10 +57,14 @@ module.exports = (fastify, opts, done) => {
     '/deleteaccount',
     {
       schema: deleteAccountSchema,
-      preValidation: [accessTokenMiddleware],
+      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
     },
     deleteAccountController
   );
-  fastify.post('/refreshtoken', { schema: refreshTokenSchema }, refreshTokenController);
+  fastify.post(
+    '/refreshtoken',
+    { schema: refreshTokenSchema, preValidation: [deviceIdMiddleware] },
+    refreshTokenController
+  );
   done();
 };

@@ -35,13 +35,14 @@ const blacklistAccessToken = async (accessToken, userId) => {
   }
 };
 
-const blacklistRefreshToken = async (refreshToken, userId, expiryDate) => {
+const blacklistRefreshToken = async (refreshToken, userId, deviceId, expiresAt) => {
   const existingBlacklistDoc = await RefreshTokenBlacklist.findOne({ token: refreshToken });
   if (!existingBlacklistDoc) {
     const blacklistDoc = new RefreshTokenBlacklist({
       token: refreshToken,
       userId: userId,
-      expiresAt: expiryDate,
+      deviceId: deviceId,
+      expiresAt: expiresAt,
     });
     await blacklistDoc.save();
   }
