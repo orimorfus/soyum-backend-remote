@@ -20,50 +20,35 @@ fastify.log.on('error', err => {
 fastify.register(require('@fastify/jwt'), { secret: SECRET });
 
 fastify.register(require('@fastify/swagger'), {
-  swagger: {
+  openapi: {
     info: {
-      title: 'SoYummy',
-      version: '1.0.0',
+      title: 'SoYummu API',
+      version: '0.1.0',
     },
-    host: process.env.NODE_ENV === 'production' ? `${HOSTNAME}` : `${HOSTNAME}:${PORT}`,
-    schemes: ['https'],
-    consumes: ['application/json'],
-    produces: ['application/json'],
-    securityDefinitions: {
-      Bearer: {
-        type: 'AccesToken',
-        name: 'Authorization Bearer',
-        in: 'header',
-        description: 'Enter your JWT here:',
+    servers: [{ url: 'http://localhost:' + PORT }, { url: `https://${HOSTNAME}` }],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
       },
     },
-    security: [{ Bearer: [] }],
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
-  exposeRoute: true,
 });
 
 fastify.register(require('@fastify/swagger-ui'), {
   routePrefix: '/docs',
-  uiConfig: {
-    docExpansion: 'list',
-    deepLinking: false,
+  swagger: {
+    openapi: '3.0.0',
   },
-  uiHooks: {
-    onRequest: function (request, reply, next) {
-      next();
-    },
-    preHandler: function (request, reply, next) {
-      next();
-    },
-  },
-  staticCSP: true,
-  transformStaticCSP: header => header,
-  transformSpecification: (swaggerObject, request, reply) => {
-    return swaggerObject;
-  },
-  transformSpecificationClone: true,
 });
-
 fastify.register(userRoutes, { prefix: '/api/user' });
 
 fastify.get('/heartbeat', (req, res) => {
