@@ -24,7 +24,7 @@ fastify.register(require('@fastify/swagger'), {
       version: '1.0.0',
     },
     host: process.env.NODE_ENV === 'production' ? `${HOSTNAME}` : `${HOSTNAME}:${PORT}`,
-    schemes: ['http', 'https'],
+    schemes: ['https'],
     consumes: ['application/json'],
     produces: ['application/json'],
     securityDefinitions: {
