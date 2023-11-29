@@ -21,7 +21,7 @@ fastify.register(require('@fastify/swagger'), {
       title: 'SoYummy',
       version: '1.0.0',
     },
-    host: `${HOSTNAME}:${PORT}`,
+    host: process.env.NODE_ENV === 'production' ? `${HOSTNAME}` : `${HOSTNAME}:${PORT}`,
     schemes: ['http', 'https'],
     consumes: ['application/json'],
     produces: ['application/json'],
