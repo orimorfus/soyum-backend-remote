@@ -1,6 +1,5 @@
 require('dotenv').config();
 const connectDb = require('./db/connectDb.js');
-const cors = require('@fastify/cors');
 const userRoutes = require('./routes/userRoutes');
 const { PORT, SECRET, HOSTNAME } = require('./envConfig');
 const logger = require('./logs/logsConfig.js');
@@ -9,7 +8,10 @@ const fastify = require('fastify')({
   logger: logger,
 });
 
-fastify.register(cors);
+fastify.register(require('@fastify/cors'), {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+});
 
 fastify.log.on('error', err => {
   console.error('Error while writing to log file:', err);
