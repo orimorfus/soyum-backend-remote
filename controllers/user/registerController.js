@@ -1,9 +1,6 @@
+// This controller handles user registration. It validates the user input, hashes the password, and saves the new user to the database.
 const { User, RefreshToken } = require('../../models');
-const {
-  hashPassword,
-  generateAccessToken,
-  generateRefreshToken,
-} = require('../../utils/tokenUtils');
+const { generateAccessToken, generateRefreshToken } = require('../../utils/tokenUtils');
 
 const registerController = async (req, reply) => {
   try {
@@ -14,8 +11,7 @@ const registerController = async (req, reply) => {
       return reply.status(400).send({ message: 'User with this email already exists' });
     }
 
-    const hashedPassword = await hashPassword(password);
-    let user = new User({ name, email, password: hashedPassword });
+    let user = new User({ name, email, password });
 
     user.expiresAt = Date.now() + 365 * 24 * 60 * 60 * 1000; // 1 year
 

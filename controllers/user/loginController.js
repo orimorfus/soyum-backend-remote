@@ -1,3 +1,4 @@
+// This controller handles user login. It checks if the user exists and if the password is correct, then generates new access and refresh tokens.
 const { User, RefreshToken } = require('../../models');
 const { blacklistRefreshToken } = require('../../utils/tokenUtils');
 const {

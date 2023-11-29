@@ -1,5 +1,6 @@
+// This controller handles password change. It checks if the old password is correct, then updates the password in the database.
 const { User } = require('../../models');
-const { comparePasswords, hashPassword } = require('../../utils/tokenUtils');
+const { comparePasswords } = require('../../utils/tokenUtils');
 const { Mutex } = require('async-mutex');
 const mutex = new Mutex();
 
@@ -20,8 +21,7 @@ const changePasswordController = async (req, reply) => {
       return reply.status(400).send({ message: 'Old password is incorrect' });
     }
 
-    const hashedNewPassword = await hashPassword(newPassword);
-    user.password = hashedNewPassword;
+    user.password = newPassword;
     user.updatedAt = Date.now();
     await user.save();
 

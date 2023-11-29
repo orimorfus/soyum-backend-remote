@@ -1,3 +1,4 @@
+// This controller handles user logout. It invalidates the user's access and refresh tokens.
 const { RefreshToken } = require('../../models');
 const jwt = require('jsonwebtoken');
 const { blacklistAccessToken, blacklistRefreshToken } = require('../../utils/tokenUtils');

@@ -1,3 +1,4 @@
+// This middleware generates a unique device ID based on the user agent, screen resolution, and timezone, and adds it to the request object.
 const crypto = require('crypto');
 const { SECRET } = require('../envConfig');
 

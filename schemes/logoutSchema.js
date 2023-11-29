@@ -1,3 +1,4 @@
+// This is the Fastify schema for the logout endpoint. It defines the request and response structure and validation.
 module.exports = {
   description: 'Logout a user',
   tags: ['User'],

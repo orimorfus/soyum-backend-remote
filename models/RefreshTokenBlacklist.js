@@ -1,3 +1,4 @@
+// This is the Mongoose schema for the RefreshTokenBlacklist model. It defines the fields and validation for RefreshTokenBlacklist documents.
 const mongoose = require('mongoose');
 const ms = require('ms');
 

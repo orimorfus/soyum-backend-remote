@@ -1,3 +1,4 @@
+// This controller handles user account deletion. It validates the user's password, then deletes the user's account from the database.
 const { User } = require('../../models');
 const {
   comparePasswords,

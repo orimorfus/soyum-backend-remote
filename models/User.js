@@ -1,12 +1,8 @@
+// This is the Mongoose schema for the User model. It defines the fields and validation for User documents.
 const mongoose = require('mongoose');
+const { hashPassword } = require('../utils/tokenUtils');
 
 const emailFilter = /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-
-// (?=.*\d): At least one digit
-// (?=.*[a-z]): At least one lowercase letter
-// (?=.*[A-Z]): At least one uppercase letter
-// (?=.*[^a-zA-Z0-9]): At least one special character
-// (?!.*\s): No whitespace characters
 const passwordFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).*$/;
 const urlFilter = /^(ftp|http|https):\/\/[^ "]+$/;
 
@@ -49,12 +45,14 @@ const User = new mongoose.Schema({
   },
 });
 
-User.pre('save', function (next) {
+User.pre('save', async function (next) {
   if (this.isNew) {
     this.createdAt = this.updatedAt = Date.now();
+    this.password = await hashPassword(this.password);
   } else {
     this.updatedAt = Date.now();
   }
   next();
 });
+
 module.exports = mongoose.model('users', User);

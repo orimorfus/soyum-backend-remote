@@ -1,3 +1,4 @@
+// This module contains utility functions for handling tokens, such as generating access and refresh tokens, hashing passwords, and comparing passwords.
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { SECRET } = require('../envConfig');

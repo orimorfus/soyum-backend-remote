@@ -1,3 +1,4 @@
+// This is the Mongoose schema for the AccessTokenBlacklist model. It defines the fields and validation for AccessTokenBlacklist documents.
 const mongoose = require('mongoose');
 const ms = require('ms');
 

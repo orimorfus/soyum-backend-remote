@@ -1,3 +1,4 @@
+// This controller handles access token refresh. It validates the refresh token and generates a new access token.
 const jwt = require('jsonwebtoken');
 const { User, RefreshToken } = require('../../models');
 const { generateAccessToken } = require('../../utils/tokenUtils');

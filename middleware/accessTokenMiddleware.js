@@ -1,3 +1,4 @@
+// This middleware validates the user's access token and adds the user's ID to the request object.
 const jwt = require('jsonwebtoken');
 
 const accessTokenMiddleware = async (req, reply) => {

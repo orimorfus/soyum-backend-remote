@@ -1,3 +1,4 @@
+// This is the Fastify schema for the delete account endpoint. It defines the request and response structure and validation.
 module.exports = {
   description: 'Delete a user account',
   tags: ['User'],

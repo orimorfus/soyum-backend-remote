@@ -1,3 +1,4 @@
+// This is the Fastify schema for the login endpoint. It defines the request and response structure and validation.
 module.exports = {
   description: 'Login a user',
   tags: ['User'],
