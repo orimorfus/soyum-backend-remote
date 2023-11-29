@@ -1,14 +1,6 @@
 module.exports = {
   description: 'Logout a user',
   tags: ['User'],
-  headers: {
-    type: 'object',
-    properties: {
-      'user-agent': { type: 'string' },
-      authorization: { type: 'string' },
-    },
-    required: ['user-agent', 'authorization'],
-  },
   response: {
     200: {
       description: 'Logged out successfully',
