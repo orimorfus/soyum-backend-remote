@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          repository: orimorfus/soyum-backend-remote
+          ref: main
 
       - name: Setup Git
         run: |
