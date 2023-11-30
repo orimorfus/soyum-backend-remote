@@ -5,6 +5,9 @@ on:
     branches: [main]
     repository: pawelrogowski/soYum-backend
 
+env:
+  GH_TOKEN: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
+
 jobs:
   sync-branches:
     runs-on: ubuntu-latest
@@ -23,6 +26,6 @@ jobs:
         run: |
           gh repo clone orimorfus/soyum-backend-remote
 
-      - name: Force push to sync-test branch
+      - name: Force push to sync-test
         run: |
           gh repo push orimorfus/soyum-backend-remote --force --branch sync-test
