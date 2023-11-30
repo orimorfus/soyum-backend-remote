@@ -28,5 +28,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.SYNC_REPO_TOKEN }}
-          repository: orimorfus/soyum-backend-remote.git
+          repository: orimorfus/soyum-backend-remote
           branch: main
