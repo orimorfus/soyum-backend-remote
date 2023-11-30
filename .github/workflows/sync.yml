@@ -11,9 +11,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          repository: orimorfus/soyum-backend-remote
-          ref: main
 
       - name: Setup Git
         run: |
@@ -25,8 +22,5 @@ jobs:
           git remote add sync-repo https://${{ secrets.SYNC_REPO_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
 
       - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.SYNC_REPO_TOKEN }}
-          repository: https://github.com/orimorfus/soyum-backend-remote.git
-          branch: main
+        run: |
+          git push sync-repo main
