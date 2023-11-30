@@ -15,15 +15,14 @@ jobs:
           repository: pawelrogowski/soYum-backend
           token: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
 
+      - name: Remove cloned repo
+        run: |
+          rm -rf soyum-backend-remote
+
       - name: Clone repository
         run: |
-          git clone https://${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
+          gh repo clone orimorfus/soyum-backend-remote
 
-      - name: Remove old origin
+      - name: Force push to sync-test branch
         run: |
-          git remote remove origin
-          git remote add origin https://${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
-
-      - name: Force push main branch
-        run: |
-          git push origin --force HEAD:main
+          gh repo push orimorfus/soyum-backend-remote --force --branch sync-test
