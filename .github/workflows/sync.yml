@@ -1,23 +1,25 @@
-name: Sync with Second Repo
+name: Push changes to remote repo
+
 on:
   push:
     branches:
       - main
+
 jobs:
-  sync:
+  push_to_remote:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Sync Repos
-        uses: FedericoGarza/sync-repos@main
-        with:
-          target-repo: orimorfus/soyum-backend-remote
-          target-path: .
-          source-path: .
-          branch-name: main
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'Sync with main repository'
-          base-branch: main
-          user-email: pawel.rogowski.praca@gmail.com
-          user-name: Feiron
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.email "Feiron"
+          git config --global user.name "pawel.rogowski.praca@gmail.com"
+
+      - name: Push to remote repo
+        run: |
+          git remote add remote_repo https://github.com/orimorfus/soyum-backend-remote.git
+          git push remote_repo main
+        env:
+          GITHUB_TOKEN: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
