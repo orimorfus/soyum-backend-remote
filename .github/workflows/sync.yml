@@ -16,11 +16,6 @@ jobs:
           repository: pawelrogowski/soYum-backend
           token: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
 
-      - name: Install Git
-        run: |
-          apt-get update
-          apt-get install -y git
-
       - name: Force push main branch
         run: |
           git push --force https://orimorfus:${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git HEAD:main
