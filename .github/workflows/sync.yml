@@ -22,7 +22,7 @@ jobs:
 
       - name: Add remote
         run: |
-          git remote add sync-repo https://${{ secrets.SYNC_REPO_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
+          git remote add sync-repo https://${{ secrets.SYNC_REPO_TOKEN }}@github.com/orimorfus/soyum-backend-remote
 
       - name: Push changes
         uses: ad-m/github-push-action@master
