@@ -10,12 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           repository: pawelrogowski/soYum-backend
           token: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
 
+      - name: Clone repository
+        run: |
+          git clone https://${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
+
+      - name: Remove old origin
+        run: |
+          git remote remove origin
+          git remote add origin https://${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
+
       - name: Force push main branch
         run: |
-          git push --force https://orimorfus:${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git HEAD:main
+          git push origin --force HEAD:main
