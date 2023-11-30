@@ -1,21 +1,21 @@
-name: Sync main branch
+name: Sync Branches
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     repository: pawelrogowski/soYum-backend
 
 jobs:
-  sync:
+  sync-branches:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
         with:
           repository: pawelrogowski/soYum-backend
           token: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
 
-      - name: Push changes
+      - name: Force push main branch
         run: |
-          git push https://orimorfus:${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git HEAD:main
+          git push --force-with-lease https://orimorfus:${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git HEAD:main
