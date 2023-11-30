@@ -22,4 +22,4 @@ jobs:
           git remote add remote_repo https://github.com/orimorfus/soyum-backend-remote.git
           git push remote_repo main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
