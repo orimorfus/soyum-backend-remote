@@ -27,7 +27,7 @@ jobs:
       - name: Fetch and merge changes
         run: |
           git fetch origin
-          git merge origin/main
+          git merge origin/main --allow-unrelated-histories
 
       - name: Force push main branch
         run: |
