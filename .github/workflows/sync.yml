@@ -1,25 +1,8 @@
-name: Push changes to remote repo
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  push_to_remote:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Git
-        run: |
-          git config --global user.email "Feiron"
-          git config --global user.name "pawel.rogowski.praca@gmail.com"
-
-      - name: Push to remote repo
-        run: |
-          git remote add remote_repo https://github.com/orimorfus/soyum-backend-remote.git
-          git push remote_repo main
-        env:
-          GITHUB_TOKEN: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
+name: Repo Sync
+uses: aasmal97/RepoSync@v1.1
+with:
+  TARGET_REPO_URL: 'https://github.com/aasmal97/repo-sync.git'
+  TARGET_REPO_BRANCH: 'main'
+  TARGET_REPO_GITHUB_ACCESS_TOKEN: '${{ secrets.SECOND_REPO_GITHUB_TOKEN }}'
+  BOT_NAME: 'Testing bot'
+  BOT_EMAIL: 'testing@gmail.com'
