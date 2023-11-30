@@ -1,8 +1,23 @@
-name: Repo Sync
-uses: aasmal97/RepoSync@v1.1
-with:
-  TARGET_REPO_URL: 'https://github.com/aasmal97/repo-sync.git'
-  TARGET_REPO_BRANCH: 'main'
-  TARGET_REPO_GITHUB_ACCESS_TOKEN: '${{ secrets.SECOND_REPO_GITHUB_TOKEN }}'
-  BOT_NAME: 'Testing bot'
-  BOT_EMAIL: 'testing@gmail.com'
+name: Sync Repositories
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Sync Remote Repositories
+        uses: aasmal97/RepoSync@v1.1
+        with:
+          TARGET_REPO_URL: 'https://github.com/orimorfus/soyum-backend-remote.git'
+          TARGET_REPO_BRANCH: 'main'
+          TARGET_REPO_GITHUB_ACCESS_TOKEN: '${{ secrets.SECOND_REPO_GITHUB_TOKEN }}'
+          BOT_NAME: 'Sync Bot'
+          BOT_EMAIL: 'sync@bot.com'
