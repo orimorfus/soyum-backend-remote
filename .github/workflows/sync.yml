@@ -20,6 +20,20 @@ jobs:
           git config user.name "Feiron"
           git config user.email "pawel.rogowski.praca@gmail.com"
 
+      - name: Clone repository
+        run: |
+          git clone https://${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
+
+      - name: Remove old origin
+        run: |
+          git remote remove origin
+          git remote add origin https://${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
+
+      - name: Fetch and merge changes
+        run: |
+          git fetch origin
+          git merge origin/main --allow-unrelated-histories
+
       - name: Force push main branch
         run: |
           git push origin --force-with-lease HEAD:main
