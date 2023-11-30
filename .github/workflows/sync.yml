@@ -36,4 +36,4 @@ jobs:
 
       - name: Force push main branch
         run: |
-          git push origin --force HEAD:main
+          git push origin --force-with-lease HEAD:main
