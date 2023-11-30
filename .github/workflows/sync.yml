@@ -13,15 +13,17 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: pawelrogowski/soYum-backend
-
-      - name: Remove cloned repo
-        run: |
-          rm -rf soyum-backend-remote
+          token: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
 
       - name: Clone repository
         run: |
           git clone https://${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
 
-      - name: Force push to sync-test
+      - name: Remove old origin
         run: |
-          git push origin --force HEAD:sync-test
+          git remote remove origin
+          git remote add origin https://${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
+
+      - name: Force push main branch
+        run: |
+          git push origin --force HEAD:main
