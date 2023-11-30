@@ -1,0 +1,23 @@
+name: Sync with Second Repo
+on:
+  push:
+    branches:
+      - main
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Sync Repos
+        uses: FedericoGarza/sync-repos@main
+        with:
+          target-repo: orimorfus/soyum-backend-remote
+          target-path: .
+          source-path: .
+          branch-name: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Sync with main repository'
+          base-branch: main
+          user-email: pawel.rogowski.praca@gmail.com
+          user-name: Feiron
