@@ -3,7 +3,6 @@ name: Sync Branches
 on:
   push:
     branches: [main]
-    repository: pawelrogowski/soYum-backend
 
 env:
   GH_TOKEN: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
@@ -28,4 +27,4 @@ jobs:
 
       - name: Force push to sync-test
         run: |
-          gh repo push orimorfus/soyum-backend-remote --force --branch sync-test
+          gh repo push orimorfus/soyum-backend-remote --set-upstream sync-test
