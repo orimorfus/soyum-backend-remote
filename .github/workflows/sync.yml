@@ -13,7 +13,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: pawelrogowski/soYum-backend
-          token: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
 
       - name: Remove cloned repo
         run: |
