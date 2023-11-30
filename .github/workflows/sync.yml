@@ -3,9 +3,7 @@ name: Sync Branches
 on:
   push:
     branches: [main]
-
-env:
-  GH_TOKEN: ${{ secrets.SECOND_REPO_GITHUB_TOKEN }}
+    repository: pawelrogowski/soYum-backend
 
 jobs:
   sync-branches:
@@ -23,8 +21,8 @@ jobs:
 
       - name: Clone repository
         run: |
-          gh repo clone orimorfus/soyum-backend-remote
+          git clone https://${{ secrets.SECOND_REPO_GITHUB_TOKEN }}@github.com/orimorfus/soyum-backend-remote.git
 
       - name: Force push to sync-test
         run: |
-          gh repo push orimorfus/soyum-backend-remote --set-upstream sync-test
+          git push origin --force HEAD:sync-test
