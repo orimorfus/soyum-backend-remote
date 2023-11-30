@@ -1,6 +1,6 @@
 // This is the Mongoose schema for the User model. It defines the fields and validation for User documents.
 const mongoose = require('mongoose');
-const { hashPassword } = require('../utils/tokenUtils');
+const { hashPassword } = require('../utils/passwordUtils');
 
 const emailFilter = /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 const passwordFilter = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).*$/;

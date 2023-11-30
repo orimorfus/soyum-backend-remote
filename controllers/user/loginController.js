@@ -1,12 +1,11 @@
 // This controller handles user login. It checks if the user exists and if the password is correct, then generates new access and refresh tokens.
 const { User, RefreshToken } = require('../../models');
 const { blacklistRefreshToken } = require('../../utils/tokenUtils');
-const {
-  comparePasswords,
-  generateAccessToken,
-  generateRefreshToken,
-} = require('../../utils/tokenUtils');
+const { generateAccessToken, generateRefreshToken } = require('../../utils/tokenUtils');
+const { comparePasswords } = require('../../utils/passwordUtils');
 const { Mutex } = require('async-mutex');
+const mongoose = require('mongoose');
+
 const mutex = new Mutex();
 
 const loginController = async (req, reply) => {
@@ -69,7 +68,11 @@ const loginController = async (req, reply) => {
     release();
   } catch (error) {
     release();
-    reply.status(500).send({ error: error.toString() });
+    if (error instanceof mongoose.Error.ValidationError) {
+      reply.status(400).send({ error: error.toString() });
+    } else {
+      reply.status(500).send({ error: error.toString() });
+    }
   }
 };
 

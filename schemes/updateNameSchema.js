@@ -1,37 +1,19 @@
 module.exports = {
-  description: 'Register a new user',
+  description: 'Update user name',
   tags: ['User'],
   body: {
     type: 'object',
     properties: {
       name: { type: 'string' },
-      email: { type: 'string' },
-      password: { type: 'string' },
     },
-    required: ['name', 'email', 'password'],
+    required: ['name'],
   },
   response: {
     200: {
-      description: 'Logged in succesfully ',
+      description: 'Name updated successfully',
       type: 'object',
       properties: {
         message: { type: 'string' },
-        user: {
-          type: 'object',
-          properties: {
-            name: { type: 'string' },
-            email: { type: 'string' },
-            avatarUrl: { type: 'string' },
-            isEmailConfirmed: { type: 'boolean' },
-          },
-        },
-        tokens: {
-          type: 'object',
-          properties: {
-            accessToken: { type: 'string' },
-            refreshToken: { type: 'string' },
-          },
-        },
       },
     },
     400: {

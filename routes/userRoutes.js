@@ -5,6 +5,10 @@ const {
   deleteAccountController,
   refreshTokenController,
   changePasswordController,
+  updateAvatarController,
+  updateNameController,
+  logoutAllController,
+  getInfoController,
 } = require('../controllers/user');
 const { accessTokenMiddleware, deviceIdMiddleware } = require('../middleware');
 const {
@@ -14,6 +18,10 @@ const {
   deleteAccountSchema,
   refreshTokenSchema,
   changePasswordSchema,
+  updateAvatarSchema,
+  updateNameSchema,
+  logoutAllSchema,
+  getInfoSchema,
 } = require('../schemes');
 
 module.exports = (fastify, opts, done) => {
@@ -36,6 +44,15 @@ module.exports = (fastify, opts, done) => {
   );
 
   fastify.get(
+    '/get-info',
+    {
+      schema: getInfoSchema,
+      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
+    },
+    getInfoController
+  );
+
+  fastify.get(
     '/logout',
     {
       schema: logoutSchema,
@@ -44,7 +61,16 @@ module.exports = (fastify, opts, done) => {
     logoutController
   );
 
-  fastify.post(
+  fastify.get(
+    '/logout-all',
+    {
+      schema: logoutAllSchema,
+      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
+    },
+    logoutAllController
+  );
+
+  fastify.patch(
     '/change-password',
     {
       schema: changePasswordSchema,
@@ -52,9 +78,25 @@ module.exports = (fastify, opts, done) => {
     },
     changePasswordController
   );
+  fastify.patch(
+    '/update-name',
+    {
+      schema: updateNameSchema,
+      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
+    },
+    updateNameController
+  );
 
+  fastify.patch(
+    '/update-avatar',
+    {
+      schema: updateAvatarSchema,
+      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
+    },
+    updateAvatarController
+  );
   fastify.delete(
-    '/deleteaccount',
+    '/delete-account',
     {
       schema: deleteAccountSchema,
       preValidation: [accessTokenMiddleware, deviceIdMiddleware],
@@ -62,9 +104,10 @@ module.exports = (fastify, opts, done) => {
     deleteAccountController
   );
   fastify.post(
-    '/refreshtoken',
+    '/refresh-token',
     { schema: refreshTokenSchema, preValidation: [deviceIdMiddleware] },
     refreshTokenController
   );
+
   done();
 };

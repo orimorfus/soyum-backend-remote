@@ -1,6 +1,7 @@
 // This controller handles user registration. It validates the user input, hashes the password, and saves the new user to the database.
 const { User, RefreshToken } = require('../../models');
 const { generateAccessToken, generateRefreshToken } = require('../../utils/tokenUtils');
+const mongoose = require('mongoose');
 
 const registerController = async (req, reply) => {
   try {
@@ -46,7 +47,11 @@ const registerController = async (req, reply) => {
       },
     });
   } catch (error) {
-    reply.status(500).send({ error: error.toString() });
+    if (error instanceof mongoose.Error.ValidationError) {
+      reply.status(400).send({ error: error.toString() });
+    } else {
+      reply.status(500).send({ error: error.toString() });
+    }
   }
 };
 

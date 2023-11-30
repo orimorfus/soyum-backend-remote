@@ -1,11 +1,10 @@
 // This controller handles user account deletion. It validates the user's password, then deletes the user's account from the database.
 const { User } = require('../../models');
-const {
-  comparePasswords,
-  blacklistAccessToken,
-  blacklistRefreshToken,
-} = require('../../utils/tokenUtils');
+const { blacklistAccessToken, blacklistRefreshToken } = require('../../utils/tokenUtils');
+const { comparePasswords } = require('../../utils/passwordUtils');
 const RefreshToken = require('../../models/RefreshToken');
+const mongoose = require('mongoose');
+
 const deleteAccountController = async (req, reply) => {
   try {
     const userId = req.user.id;
@@ -39,7 +38,11 @@ const deleteAccountController = async (req, reply) => {
 
     reply.send({ message: 'User deleted successfully' });
   } catch (error) {
-    reply.status(500).send({ error: error.toString() });
+    if (error instanceof mongoose.Error.ValidationError) {
+      reply.status(400).send({ error: error.toString() });
+    } else {
+      reply.status(500).send({ error: error.toString() });
+    }
   }
 };
 

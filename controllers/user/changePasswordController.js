@@ -1,7 +1,9 @@
 // This controller handles password change. It checks if the old password is correct, then updates the password in the database.
 const { User } = require('../../models');
-const { comparePasswords } = require('../../utils/tokenUtils');
+const { comparePasswords } = require('../../utils/passwordUtils');
 const { Mutex } = require('async-mutex');
+const mongoose = require('mongoose');
+
 const mutex = new Mutex();
 
 const changePasswordController = async (req, reply) => {
@@ -30,7 +32,11 @@ const changePasswordController = async (req, reply) => {
     release();
   } catch (error) {
     release();
-    reply.status(500).send({ error: error.toString() });
+    if (error instanceof mongoose.Error.ValidationError) {
+      reply.status(400).send({ error: error.toString() });
+    } else {
+      reply.status(500).send({ error: error.toString() });
+    }
   }
 };
 

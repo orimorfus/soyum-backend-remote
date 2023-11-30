@@ -2,7 +2,9 @@
 const jwt = require('jsonwebtoken');
 const { User, RefreshToken } = require('../../models');
 const { generateAccessToken } = require('../../utils/tokenUtils');
+const mongoose = require('mongoose');
 const { Mutex } = require('async-mutex');
+
 const mutex = new Mutex();
 
 const refreshTokenController = async (req, reply) => {
@@ -32,8 +34,11 @@ const refreshTokenController = async (req, reply) => {
     release();
   } catch (error) {
     release();
-    reply.status(500).send({ error: error.toString() });
+    if (error instanceof mongoose.Error.ValidationError) {
+      reply.status(400).send({ error: error.toString() });
+    } else {
+      reply.status(500).send({ error: error.toString() });
+    }
   }
 };
-
 module.exports = refreshTokenController;
