@@ -45,10 +45,11 @@ fastify.setErrorHandler(function (error, request, reply) {
   }
 });
 
+const host = 'RENDER' in process.env ? `0.0.0.0` : `localhost`;
 async function startServer() {
   try {
     await connectDb();
-    await fastify.listen({ port: PORT });
+    await fastify.listen({ host: host, port: PORT });
   } catch (error) {
     console.error(`something went wrong`, error);
   }
