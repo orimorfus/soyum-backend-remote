@@ -32,17 +32,25 @@ fastify.setNotFoundHandler((request, reply) => {
 });
 
 fastify.setErrorHandler(function (error, request, reply) {
-  if (error.code && error.code === 'FST_ERR_VALIDATION') {
-    const property = error.validation[0].schemaPath.split('/')[2];
-    const message = `${property} ${error.validation[0].message}`;
-    reply.status(error.statusCode).send({
-      message: message,
+  if (error.validation) {
+    const validationErrors = error.validation.map(
+      err => `${err.dataPath || 'Value'} ${err.message}`
+    );
+    reply.status(400).send({
+      error: 'Bad Request',
+      message: error.message,
+      validation: validationErrors,
+    });
+  } else if (error.statusCode === 400) {
+    reply.status(400).send({
+      error: 'Bad Request',
+      message: error.message,
     });
   } else {
-    reply.status(error.statusCode).send({
-      message: 'something went wrong',
+    reply.status(error.statusCode || 500).send({
+      error: error.name,
+      message: error.message,
     });
-    console.error(error);
   }
 });
 

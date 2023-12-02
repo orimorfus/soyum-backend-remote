@@ -11,9 +11,7 @@ const registerController = async (req, reply) => {
   }
 
   let user = new User({ name, email, password });
-
   user.expiresAt = Date.now() + 365 * 24 * 60 * 60 * 1000; // 1 year
-
   user = await user.save();
 
   const accessToken = generateAccessToken(user._id, process.env.ACCESS_TOKEN_EXPIRATION);
@@ -45,5 +43,4 @@ const registerController = async (req, reply) => {
     },
   });
 };
-
 module.exports = registerController;

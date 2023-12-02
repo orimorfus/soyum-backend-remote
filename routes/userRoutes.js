@@ -10,7 +10,11 @@ const {
   logoutAllController,
   getInfoController,
 } = require('../controllers/user');
-const { accessTokenMiddleware, deviceIdMiddleware } = require('../middleware');
+const {
+  accessTokenMiddleware,
+  deviceIdMiddleware,
+  requiredFieldsValidation,
+} = require('../middleware');
 const {
   registerSchema,
   loginSchema,
@@ -29,7 +33,7 @@ module.exports = (fastify, opts, done) => {
     '/register',
     {
       schema: registerSchema,
-      preValidation: [deviceIdMiddleware],
+      preValidation: [requiredFieldsValidation(['name', 'email', 'password']), deviceIdMiddleware],
     },
     registerController
   );
@@ -38,7 +42,7 @@ module.exports = (fastify, opts, done) => {
     '/login',
     {
       schema: loginSchema,
-      preValidation: [deviceIdMiddleware],
+      preValidation: [requiredFieldsValidation(['email', 'password']), deviceIdMiddleware],
     },
     loginController
   );
@@ -74,7 +78,11 @@ module.exports = (fastify, opts, done) => {
     '/change-password',
     {
       schema: changePasswordSchema,
-      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
+      preValidation: [
+        accessTokenMiddleware,
+        requiredFieldsValidation(['oldPassword', 'newPassword']),
+        deviceIdMiddleware,
+      ],
     },
     changePasswordController
   );
@@ -82,7 +90,11 @@ module.exports = (fastify, opts, done) => {
     '/update-name',
     {
       schema: updateNameSchema,
-      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
+      preValidation: [
+        accessTokenMiddleware,
+        requiredFieldsValidation(['name']),
+        deviceIdMiddleware,
+      ],
     },
     updateNameController
   );
@@ -91,7 +103,11 @@ module.exports = (fastify, opts, done) => {
     '/update-avatar',
     {
       schema: updateAvatarSchema,
-      preValidation: [accessTokenMiddleware, deviceIdMiddleware],
+      preValidation: [
+        accessTokenMiddleware,
+        requiredFieldsValidation(['avatarUrl']),
+        deviceIdMiddleware,
+      ],
     },
     updateAvatarController
   );

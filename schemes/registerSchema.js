@@ -4,13 +4,13 @@ const registerSchema = {
   description: 'Register a new user',
   tags: ['User'],
   body: S.object()
-    .prop('name', S.string().minLength(2).maxLength(30).pattern('John Doe').required())
-    .prop('email', S.string().format('email').required())
-    .prop('password', S.string().minLength(8).pattern('pasSword1!').required())
+    .prop('name', S.string().minLength(2).maxLength(30).required())
+    .prop('email', S.string().required())
+    .prop('password', S.string().minLength(8).required())
     .valueOf(),
   response: {
     200: S.object()
-      .prop('message', S.string())
+      .prop('message', S.string().required())
       .prop(
         'user',
         S.object()
@@ -21,8 +21,12 @@ const registerSchema = {
       )
       .prop('tokens', S.object().prop('accessToken', S.string()).prop('refreshToken', S.string()))
       .valueOf(),
-    400: S.object().prop('message', S.string()).valueOf(),
-    500: S.object().prop('message', S.string()).valueOf(),
+    400: S.object()
+      .prop('error', S.string())
+      .prop('message', S.string())
+      .prop('validation', S.array().items(S.string()))
+      .valueOf(),
+    500: S.object().prop('message', S.string().required()).valueOf(),
   },
 };
 
