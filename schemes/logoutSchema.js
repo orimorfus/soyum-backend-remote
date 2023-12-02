@@ -1,23 +1,18 @@
-// This is the Fastify schema for the logout endpoint. It defines the request and response structure and validation.
-module.exports = {
-  description: 'Logout a user',
+const S = require('fluent-json-schema');
+
+const getInfoSchema = {
+  description: 'Get user info',
   tags: ['User'],
   response: {
-    200: {
-      description: 'Logged out successfully',
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      description: 'Internal Server Error',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
+    200: S.object()
+      .prop('name', S.string())
+      .prop('email', S.string())
+      .prop('avatarUrl', S.string())
+      .prop('isEmailConfirmed', S.boolean())
+      .valueOf(),
+    400: S.object().prop('message', S.string()).valueOf(),
+    500: S.object().prop('message', S.string()).valueOf(),
   },
 };
+
+module.exports = getInfoSchema;

@@ -1,39 +1,17 @@
-module.exports = {
+const S = require('fluent-json-schema');
+
+const changePasswordSchema = {
   description: 'Change user password',
   tags: ['User'],
-  body: {
-    type: 'object',
-    properties: {
-      oldPassword: { type: 'string' },
-      newPassword: { type: 'string' },
-    },
-    required: ['oldPassword', 'newPassword'],
-  },
+  body: S.object()
+    .prop('oldPassword', S.string().required())
+    .prop('newPassword', S.string().minLength(8).required())
+    .valueOf(),
   response: {
-    200: {
-      description: 'Password changed successfully',
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    400: {
-      description: 'Bad Request',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      description: 'Internal Server Error',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
+    200: S.object().prop('message', S.string()).valueOf(),
+    400: S.object().prop('message', S.string()).valueOf(),
+    500: S.object().prop('message', S.string()).valueOf(),
   },
 };
+
+module.exports = changePasswordSchema;

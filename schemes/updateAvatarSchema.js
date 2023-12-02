@@ -1,38 +1,14 @@
-module.exports = {
+const S = require('fluent-json-schema');
+
+const updateAvatarSchema = {
   description: 'Update user avatar',
   tags: ['User'],
-  body: {
-    type: 'object',
-    properties: {
-      avatarUrl: { type: 'string' },
-    },
-    required: ['avatarUrl'],
-  },
+  body: S.object().prop('avatarUrl', S.string().format('url').required()).valueOf(),
   response: {
-    200: {
-      description: 'Avatar updated successfully',
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    400: {
-      description: 'Bad Request',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      description: 'Internal Server Error',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
+    200: S.object().prop('message', S.string()).valueOf(),
+    400: S.object().prop('message', S.string()).valueOf(),
+    500: S.object().prop('message', S.string()).valueOf(),
   },
 };
+
+module.exports = updateAvatarSchema;

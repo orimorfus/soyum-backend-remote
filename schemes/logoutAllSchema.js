@@ -1,22 +1,13 @@
-module.exports = {
+const S = require('fluent-json-schema');
+
+const logoutAllSchema = {
   description: 'Logout all sessions for a user',
   tags: ['User'],
   response: {
-    200: {
-      description: 'Logged out of all sessions successfully',
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      description: 'Internal Server Error',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
+    200: S.object().prop('message', S.string()).valueOf(),
+    400: S.object().prop('message', S.string()).valueOf(),
+    500: S.object().prop('message', S.string()).valueOf(),
   },
 };
+
+module.exports = logoutAllSchema;

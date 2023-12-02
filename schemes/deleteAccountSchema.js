@@ -1,32 +1,13 @@
-// This is the Fastify schema for the delete account endpoint. It defines the request and response structure and validation.
-module.exports = {
+const S = require('fluent-json-schema');
+
+const deleteAccountSchema = {
   description: 'Delete a user account',
   tags: ['User'],
   response: {
-    200: {
-      description: 'User account deleted successfully',
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    400: {
-      description: 'Bad Request',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      description: 'Internal Server Error',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
+    200: S.object().prop('message', S.string()).valueOf(),
+    400: S.object().prop('message', S.string()).valueOf(),
+    500: S.object().prop('message', S.string()).valueOf(),
   },
 };
+
+module.exports = deleteAccountSchema;

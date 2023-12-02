@@ -1,30 +1,14 @@
-module.exports = {
+const S = require('fluent-json-schema');
+
+const refreshTokenSchema = {
   description: 'Refresh access token',
   tags: ['User'],
-  body: {
-    type: 'object',
-    properties: {
-      refreshToken: { type: 'string' },
-    },
-    required: ['refreshToken'],
-  },
+  body: S.object().prop('refreshToken', S.string().required()).valueOf(),
   response: {
-    200: {
-      description: 'Access token refreshed successfully',
-      type: 'object',
-      properties: {
-        accessToken: { type: 'string' },
-      },
-      required: ['accessToken'],
-    },
-    500: {
-      description: 'Internal Server Error',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
+    200: S.object().prop('message', S.string()).prop('accessToken', S.string()).valueOf(),
+    400: S.object().prop('message', S.string()).valueOf(),
+    500: S.object().prop('message', S.string()).valueOf(),
   },
 };
+
+module.exports = refreshTokenSchema;

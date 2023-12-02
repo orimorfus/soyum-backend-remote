@@ -1,38 +1,14 @@
-module.exports = {
+const S = require('fluent-json-schema');
+
+const updateNameSchema = {
   description: 'Update user name',
   tags: ['User'],
-  body: {
-    type: 'object',
-    properties: {
-      name: { type: 'string' },
-    },
-    required: ['name'],
-  },
+  body: S.object().prop('name', S.string().minLength(2).maxLength(30).required()).valueOf(),
   response: {
-    200: {
-      description: 'Name updated successfully',
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    400: {
-      description: 'Bad Request',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      description: 'Internal Server Error',
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number' },
-        error: { type: 'string' },
-        message: { type: 'string' },
-      },
-    },
+    200: S.object().prop('message', S.string()).valueOf(),
+    400: S.object().prop('message', S.string()).valueOf(),
+    500: S.object().prop('message', S.string()).valueOf(),
   },
 };
+
+module.exports = updateNameSchema;
