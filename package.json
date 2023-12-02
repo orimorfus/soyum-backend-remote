@@ -1,7 +1,7 @@
 {
   "name": "soyummy_backend",
   "version": "1.0.0",
-  "description": "backend server for recipe site ",
+  "description": "backend service for a recipe site ",
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js",
@@ -19,9 +19,9 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "fastify": "^4.24.3",
+    "fluent-json-schema": "^4.2.1",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.0",
-    "pino-pretty": "^10.2.3",
     "rotating-file-stream": "^3.1.1",
     "swagger-themes": "^1.2.30"
   },

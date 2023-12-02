@@ -4,6 +4,7 @@ const userRoutes = require('./routes/userRoutes');
 const { PORT, SECRET, HOSTNAME } = require('./envConfig');
 const logger = require('./logs/logsConfig.js');
 const { registerSwaggerDocs, registerSwaggerUI } = require('./docs/swaggerSettings');
+
 const fastify = require('fastify')({
   logger: logger,
 });
@@ -13,14 +14,11 @@ fastify.register(require('@fastify/cors'), {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
 
-fastify.log.on('error', err => {
-  console.error('Error while writing to log file:', err);
-});
-
 fastify.register(require('@fastify/jwt'), { secret: SECRET });
 
 registerSwaggerDocs(fastify);
 registerSwaggerUI(fastify);
+
 fastify.register(userRoutes, { prefix: '/api/user' });
 
 fastify.get('/heartbeat', (req, res) => {
@@ -34,14 +32,17 @@ fastify.setNotFoundHandler((request, reply) => {
 });
 
 fastify.setErrorHandler(function (error, request, reply) {
-  if (error.name === 'ValidationError') {
-    reply.status(400).send({
-      statusCode: 400,
-      error: 'Bad Request',
-      message: error.message,
+  if (error.code && error.code === 'FST_ERR_VALIDATION') {
+    const property = error.validation[0].schemaPath.split('/')[2];
+    const message = `${property} ${error.validation[0].message}`;
+    reply.status(error.statusCode).send({
+      message: message,
     });
   } else {
-    reply.send(error);
+    reply.status(error.statusCode).send({
+      message: 'something went wrong',
+    });
+    console.error(error);
   }
 });
 
