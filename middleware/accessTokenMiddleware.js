@@ -14,18 +14,18 @@ const accessTokenMiddleware = async (req, reply) => {
     }
   } catch (err) {
     if (err.message === 'No Authorization was found in request.headers') {
-      reply.code(401).send({ error: 'No access token provided' });
+      reply.code(401).send({ message: 'No access token provided' });
     } else if (err.name === 'UnauthorizedError') {
       if (err.message.includes('expired')) {
-        reply.code(401).send({ error: 'Authorization token expired' });
+        reply.code(401).send({ message: 'Token expired' });
       } else {
-        reply.code(401).send({ error: 'Invalid access token' });
+        reply.code(401).send({ message: 'Invalid access token' });
       }
     } else {
       console.error(err.name, err.message, err);
       reply
         .code(500)
-        .send({ error: 'An error occurred during token verification', err: err.toString() });
+        .send({ message: 'An error occurred during token verification', err: err.toString() });
     }
   }
 };

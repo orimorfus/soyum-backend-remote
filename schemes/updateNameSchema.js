@@ -7,6 +7,7 @@ const updateNameSchema = {
   response: {
     200: S.object().prop('message', S.string()).valueOf(),
     400: S.object().prop('message', S.string()).valueOf(),
+    401: S.object().prop('message', S.string()).valueOf(),
     500: S.object().prop('message', S.string()).valueOf(),
   },
 };
