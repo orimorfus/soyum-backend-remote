@@ -11,7 +11,7 @@ const registerSwaggerDocs = async fastify =>
         title: 'SoYummy API',
         version: '0.1.0',
       },
-      servers: [{ url: `http://${HOSTNAME}` }, { url: 'http://localhost:' + PORT }],
+      servers: [{ url: `https://${HOSTNAME}` }, { url: 'http://localhost:' + PORT }],
       components: {
         securitySchemes: {
           bearerAuth: {
