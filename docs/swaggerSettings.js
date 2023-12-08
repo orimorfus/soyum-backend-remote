@@ -11,6 +11,7 @@ const registerSwaggerDocs = async fastify =>
         title: 'SoYummy API',
         version: '0.1.0',
       },
+      stripBasePath: true,
       servers: [{ url: `https://${HOSTNAME}` }, { url: 'http://localhost:' + PORT }],
       components: {
         securitySchemes: {
@@ -35,6 +36,7 @@ const registerSwaggerUI = async fastify =>
     uiConfig: {
       layout: 'BaseLayout',
     },
+    stripBasePath: true,
     exposeRoute: true,
     theme: {
       css: [{ filename: 'theme.css', content: content }],
