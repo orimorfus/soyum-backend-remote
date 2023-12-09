@@ -19,7 +19,7 @@ fastify.register(require('@fastify/jwt'), { secret: SECRET });
 registerSwaggerDocs(fastify);
 registerSwaggerUI(fastify);
 
-fastify.register(userRoutes, { prefix: '/user' });
+fastify.register(userRoutes, { prefix: '/api/user' });
 
 fastify.get('/heartbeat', (req, res) => {
   res.code(200).send('Server is working correctly');
@@ -58,7 +58,7 @@ const host = 'RENDER' in process.env ? `0.0.0.0` : `localhost`;
 async function startServer() {
   try {
     await connectDb();
-    await fastify.listen({ host: host, port: PORT, prefix: '/api' });
+    await fastify.listen({ host: host, port: PORT });
   } catch (error) {
     console.error(`something went wrong`, error);
   }
