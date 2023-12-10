@@ -11,7 +11,7 @@ const fastify = require('fastify')({
 
 fastify.register(require('@fastify/cors'), {
   origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 });
 
 fastify.register(require('@fastify/jwt'), { secret: SECRET });
