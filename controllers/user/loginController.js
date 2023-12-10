@@ -20,7 +20,7 @@ const loginController = async (req, reply) => {
 
     const isPasswordValid = await comparePasswords(password, user.password);
     if (!isPasswordValid) {
-      return reply.status(400).send('Invalid credentials');
+      return reply.status(400).send({ message: 'Invalid credentials' });
     }
 
     const oldRefreshTokens = await RefreshToken.find({
