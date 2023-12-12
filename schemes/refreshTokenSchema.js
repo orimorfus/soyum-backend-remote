@@ -8,7 +8,7 @@ const refreshTokenSchema = {
   response: {
     200: S.object()
       .description('Access token refreshed successfully')
-      .prop('message', S.string())
+      .prop('accessToken', S.string())
       .valueOf(),
     400: S.object().description('Bad Request').prop('message', S.string()).valueOf(),
     401: S.object().description('Unauthorized').prop('message', S.string()).valueOf(),

@@ -121,7 +121,10 @@ module.exports = (fastify, opts, done) => {
   );
   fastify.post(
     '/refresh-token',
-    { schema: refreshTokenSchema, preValidation: [deviceIdMiddleware] },
+    {
+      schema: refreshTokenSchema,
+      preValidation: [deviceIdMiddleware],
+    },
     refreshTokenController
   );
 
