@@ -1,37 +1,51 @@
 require('dotenv').config();
 const connectDb = require('./db/connectDb.js');
 const userRoutes = require('./routes/userRoutes');
+const recipeRoutes = require('./routes/recipeRoutes');
 const { PORT, SECRET, HOSTNAME } = require('./envConfig');
-const logger = require('./logs/logsConfig.js');
 const { registerSwaggerDocs, registerSwaggerUI } = require('./docs/swaggerSettings');
 
-const fastify = require('fastify')({
-  logger: logger,
+const server = require('fastify')({
+  logger: {
+    transport: {
+      target: '@fastify/one-line-logger',
+    },
+  },
 });
 
-fastify.register(require('@fastify/cors'), {
+server.register(require('@fastify/cors'), {
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 });
+server.register(import('@fastify/rate-limit'), {
+  max: 100,
+  timeWindow: '1 minute',
+});
+server.register(require('@fastify/jwt'), { secret: SECRET });
 
-fastify.register(require('@fastify/jwt'), { secret: SECRET });
+registerSwaggerDocs(server);
+registerSwaggerUI(server);
 
-registerSwaggerDocs(fastify);
-registerSwaggerUI(fastify);
-
-fastify.register(userRoutes, { prefix: '/api/user' });
-
-fastify.get('/heartbeat', (req, res) => {
+server.register(userRoutes, { prefix: '/api/user' });
+server.register(recipeRoutes, { prefix: '/api/recipe' });
+server.get('/heartbeat', (req, res) => {
   res.code(200).send('Server is working correctly');
 });
 
-fastify.setNotFoundHandler((request, reply) => {
+server.setNotFoundHandler((request, reply) => {
   reply.status(404).send({
     error: `Sorry, this route does not exist, to see all available routes visit ${HOSTNAME}:${PORT}/docs`,
   });
 });
 
-fastify.setErrorHandler(function (error, request, reply) {
+server.setErrorHandler(function (error, request, reply) {
+  if (error.statusCode === 429) {
+    reply.code(429);
+    error.message = 'You hit the rate limit! Slow down please!';
+  }
+  reply.send(error);
+});
+server.setErrorHandler(function (error, request, reply) {
   if (error.validation) {
     const validationErrors = error.validation.map(
       err => `${err.dataPath || 'Value'} ${err.message}`
@@ -47,6 +61,7 @@ fastify.setErrorHandler(function (error, request, reply) {
       message: error.message,
     });
   } else {
+    console.error(error);
     reply.status(error.statusCode || 500).send({
       error: error.name,
       message: error.message,
@@ -58,7 +73,7 @@ const host = 'RENDER' in process.env ? `0.0.0.0` : `localhost`;
 async function startServer() {
   try {
     await connectDb();
-    await fastify.listen({ host: host, port: PORT });
+    await server.listen({ host: host, port: PORT });
   } catch (error) {
     console.error(`something went wrong`, error);
   }

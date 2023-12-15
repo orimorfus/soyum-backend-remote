@@ -10,11 +10,13 @@ const {
   logoutAllController,
   getInfoController,
 } = require('../controllers/user');
+
 const {
   accessTokenMiddleware,
   deviceIdMiddleware,
   requiredFieldsValidation,
 } = require('../middleware');
+
 const {
   registerSchema,
   loginSchema,
@@ -26,7 +28,7 @@ const {
   updateNameSchema,
   logoutAllSchema,
   getInfoSchema,
-} = require('../schemes');
+} = require('../schemes/user');
 
 module.exports = (fastify, opts, done) => {
   fastify.post(
@@ -86,6 +88,7 @@ module.exports = (fastify, opts, done) => {
     },
     changePasswordController
   );
+
   fastify.patch(
     '/update-name',
     {
@@ -111,6 +114,7 @@ module.exports = (fastify, opts, done) => {
     },
     updateAvatarController
   );
+
   fastify.delete(
     '/delete-account',
     {
@@ -119,6 +123,7 @@ module.exports = (fastify, opts, done) => {
     },
     deleteAccountController
   );
+
   fastify.post(
     '/refresh-token',
     {
