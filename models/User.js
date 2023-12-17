@@ -37,6 +37,8 @@ const User = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  favoriteRecipes: [String],
+  createdRecipes: [String],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   expiresAt: {
