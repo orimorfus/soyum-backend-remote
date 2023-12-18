@@ -50,7 +50,7 @@ module.exports = (fastify, opts, done) => {
   );
 
   fastify.get(
-    '/get-info',
+    '/info',
     {
       schema: getInfoSchema,
       preValidation: [accessTokenMiddleware, deviceIdMiddleware],
