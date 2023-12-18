@@ -2,7 +2,8 @@ const axios = require('axios');
 const generateQueryString = require('../../utils/queryStringUtils/generateQueryString');
 
 const getRecipesController = async (request, reply) => {
-  const { keyword, mealType, random, imageSize } = request.query;
+  const { keyword, mealType, random, imageSize, diet, health, cuisineType, dishType } =
+    request.query;
 
   const params = {
     q: '',
@@ -16,6 +17,10 @@ const getRecipesController = async (request, reply) => {
 
   if (mealType) params.mealType = mealType;
   if (keyword) params.q = keyword;
+  if (diet) params.diet = diet;
+  if (health) params.health = health;
+  if (cuisineType) params.cuisineType = cuisineType;
+  if (dishType) params.dishType = dishType;
 
   const queryString = generateQueryString(params);
 

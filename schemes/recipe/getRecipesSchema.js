@@ -12,15 +12,120 @@ const getRecipesSchema = {
       'mealType',
       S.string()
         .enum(['breakfast', 'brunch', 'lunch', 'dinner', 'snack', 'teatime'])
-        .default('dinner')
         .description('Meal type to search for')
     )
-
+    .prop(
+      'diet',
+      S.string()
+        .enum(['balanced', 'high-fiber', 'high-protein', 'low-carb', 'low-fat', 'low-sodium'])
+        .description('Diet label to search for')
+    )
+    .prop(
+      'health',
+      S.string()
+        .enum([
+          'alcohol-cocktail',
+          'alcohol-free',
+          'celery-free',
+          'crustacean-free',
+          'dairy-free ',
+          'DASH',
+          'egg-free',
+          'fish-free',
+          'fodmap-free',
+          'gluten-free',
+          'immuno-supportive',
+          'keto-friendly',
+          'kidney-friendly',
+          'kosher',
+          'low-potassium',
+          'low-sugar',
+          'lupine-free',
+          'Mediterranean',
+          'mollusk-free ',
+          'mustard-free',
+          'No-oil-added',
+          'paleo',
+          'peanut-free',
+          'pecatarian',
+          'pork-free',
+          'red-meat-free',
+          'sesame-free',
+          'shellfish-free',
+          'soy-free',
+          'sugar-conscious',
+          'sulfite-free',
+          'tree-nut-free',
+          'vegan',
+          'vegetarian',
+          'wheat-free ',
+        ])
+        .description('Health label to search for')
+    )
+    .prop(
+      'cuisineType',
+      S.string()
+        .enum([
+          'american',
+          'asian',
+          'british',
+          'caribbean',
+          'central europe',
+          'chinese',
+          'eastern europe',
+          'french',
+          'greek',
+          'indian',
+          'italian',
+          'japanese',
+          'korean',
+          'kosher',
+          'mediterranean',
+          'mexican',
+          'middle eastern',
+          'nordic',
+          'south american',
+          'south east asian',
+          'world',
+        ])
+        .description('Cuisine type to search for')
+    )
+    .prop(
+      'dishType',
+      S.string()
+        .enum([
+          'alcohol cocktail',
+          'biscuits and cookies',
+          'bread',
+          'cereals',
+          'condiments and sauces',
+          'desserts',
+          'drinks',
+          'egg',
+          'ice cream and custard',
+          'main course',
+          'pancake',
+          'pasta',
+          'pastry',
+          'pies and tarts',
+          'pizza',
+          'preps',
+          'preserve',
+          'salad',
+          'sandwiches',
+          'seafood',
+          'side dish',
+          'soup',
+          'special occasions',
+          'starter',
+          'sweets',
+        ])
+        .description('Dish type to search for')
+    )
     .prop(
       'imageSize',
       S.string()
         .enum(['thumbnail', 'small', 'regular', 'large'])
-        .default('large')
         .description('Size of the image to return')
     ),
   response: {
