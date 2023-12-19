@@ -13,6 +13,7 @@ const getRecipesController = async (request, reply) => {
     field: [
       'uri',
       'label',
+      'image',
       'images',
       'ingredients',
       'instructionLines',
