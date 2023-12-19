@@ -165,6 +165,43 @@ const getRecipesSchema = {
                   uri: { type: 'string', description: 'Recipe URI' },
                   label: { type: 'string', description: 'Recipe name' },
                   image: { type: 'string', description: 'Recipe image URL' },
+                  images: {
+                    type: 'object',
+                    properties: {
+                      THUMBNAIL: {
+                        type: 'object',
+                        properties: {
+                          url: { type: 'string', description: 'Thumbnail image URL' },
+                          width: { type: 'number', description: 'Thumbnail image width' },
+                          height: { type: 'number', description: 'Thumbnail image height' },
+                        },
+                      },
+                      SMALL: {
+                        type: 'object',
+                        properties: {
+                          url: { type: 'string', description: 'Small image URL' },
+                          width: { type: 'number', description: 'Small image width' },
+                          height: { type: 'number', description: 'Small image height' },
+                        },
+                      },
+                      REGULAR: {
+                        type: 'object',
+                        properties: {
+                          url: { type: 'string', description: 'Regular image URL' },
+                          width: { type: 'number', description: 'Regular image width' },
+                          height: { type: 'number', description: 'Regular image height' },
+                        },
+                      },
+                      LARGE: {
+                        type: 'object',
+                        properties: {
+                          url: { type: 'string', description: 'Large image URL' },
+                          width: { type: 'number', description: 'Large image width' },
+                          height: { type: 'number', description: 'Large image height' },
+                        },
+                      },
+                    },
+                  },
                   source: { type: 'string', description: 'Recipe source' },
                   url: { type: 'string', description: 'Recipe URL' },
                   yield: { type: 'number', description: 'Recipe yield' },
@@ -174,17 +211,21 @@ const getRecipesSchema = {
                     items: {
                       type: 'object',
                       properties: {
-                        text: { type: 'string', description: 'Ingredient text' },
                         quantity: { type: 'number', description: 'Ingredient quantity' },
                         measure: { type: 'string', description: 'Ingredient measure' },
                         food: { type: 'string', description: 'Ingredient food' },
-                        foodId: { type: 'string', description: 'Ingredient foodId' },
+                        image: { type: 'string', description: 'Ingredient image' },
                       },
                     },
                   },
                   calories: { type: 'number', description: 'Total calories' },
                   totalWeight: { type: 'number', description: 'Total weight' },
                   totalTime: { type: 'number', description: 'Total time' },
+                  instructionLines: {
+                    type: 'array',
+                    description: 'Instructions',
+                    items: { type: 'string' },
+                  },
                 },
               },
             },

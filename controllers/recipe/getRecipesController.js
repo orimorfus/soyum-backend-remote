@@ -6,21 +6,30 @@ const getRecipesController = async (request, reply) => {
     request.query;
 
   const params = {
-    q: '',
     type: 'any',
     random,
     app_id: process.env.EDAMAM_APP_ID,
     app_key: process.env.EDAMAM_APP_KEY,
-    imgSize: imageSize,
-    field: ['uri', 'label', 'image', 'images', 'ingredients'],
+    field: [
+      'uri',
+      'label',
+      'images',
+      'ingredients',
+      'instructionLines',
+      'calories',
+      'totalWeight',
+      'totalTime',
+      'yield',
+    ],
   };
 
-  if (mealType) params.mealType = mealType;
   if (keyword) params.q = keyword;
+  if (mealType) params.mealType = mealType;
   if (diet) params.diet = diet;
   if (health) params.health = health;
   if (cuisineType) params.cuisineType = cuisineType;
   if (dishType) params.dishType = dishType;
+  if (imageSize) params.imgSize = imageSize;
 
   const queryString = generateQueryString(params);
 
@@ -32,7 +41,10 @@ const getRecipesController = async (request, reply) => {
   console.log(config.url);
 
   const response = await axios(config);
-  reply.send(response.data);
+
+  const filteredData = response.data.hits.filter(hit => hit.recipe.instructionLines.length > 0);
+
+  reply.send({ ...response.data, hits: filteredData });
 };
 
 module.exports = getRecipesController;
