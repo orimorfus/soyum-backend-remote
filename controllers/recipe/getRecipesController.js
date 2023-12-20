@@ -50,7 +50,13 @@ const getRecipesController = async (request, reply) => {
   } else {
     const response = await axios(config);
     const filteredData = response.data.hits.filter(hit => hit.recipe.instructionLines.length > 0);
-    result = { ...response.data, hits: filteredData };
+    result = {
+      ...response.data,
+      hits: filteredData.map(hit => ({
+        ...hit,
+        recipe: { ...hit.recipe, id: hit.recipe.uri.split('#recipe_')[1] },
+      })),
+    };
     searchCache.set(queryString, result, 3600000);
     reply.send(result);
   }

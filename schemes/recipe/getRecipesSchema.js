@@ -154,6 +154,7 @@ const getRecipesSchema = {
                 type: 'object',
                 properties: {
                   uri: { type: 'string', description: 'Recipe URI' },
+                  id: { type: 'string', description: 'Recipe ID' },
                   label: { type: 'string', description: 'Recipe name' },
                   image: { type: 'string', description: 'Recipe image URL' },
                   images: {
