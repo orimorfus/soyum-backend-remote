@@ -54,7 +54,11 @@ const getRecipesController = async (request, reply) => {
       ...response.data,
       hits: filteredData.map(hit => ({
         ...hit,
-        recipe: { ...hit.recipe, id: hit.recipe.uri.split('#recipe_')[1] },
+        recipe: {
+          ...hit.recipe,
+          id: hit.recipe.uri.split('#recipe_')[1],
+          label: hit.recipe.label.replace(/ Recipe$/, ''),
+        },
       })),
     };
     searchCache.set(queryString, result, 3600000);
