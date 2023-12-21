@@ -1,5 +1,5 @@
-const { getRecipesSchema } = require('../schemes/recipe');
-const { getRecipesController } = require('../controllers/recipe');
+const { getRecipesSchema, getRecipeByIdSchema } = require('../schemes/recipe');
+const { getRecipesController, getRecipeByIdController } = require('../controllers/recipe');
 
 module.exports = (fastify, opts, done) => {
   fastify.route({
@@ -7,6 +7,13 @@ module.exports = (fastify, opts, done) => {
     url: '/search',
     schema: getRecipesSchema,
     handler: getRecipesController,
+  });
+
+  fastify.route({
+    method: 'GET',
+    url: '/by-id/:id',
+    schema: getRecipeByIdSchema,
+    handler: getRecipeByIdController,
   });
 
   done();

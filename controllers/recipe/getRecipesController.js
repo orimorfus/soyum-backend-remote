@@ -9,7 +9,7 @@ const getRecipesController = async (request, reply) => {
     request.query;
 
   const params = {
-    type: 'any',
+    type: 'public',
     random,
     app_id: process.env.EDAMAM_APP_ID,
     app_key: process.env.EDAMAM_APP_KEY,
@@ -41,6 +41,8 @@ const getRecipesController = async (request, reply) => {
     method: 'get',
     url: `https://api.edamam.com/api/recipes/v2?${queryString}`,
   };
+
+  console.log(`Fetching data from: ${config.url}`);
 
   let result = searchCache.get(queryString);
 
