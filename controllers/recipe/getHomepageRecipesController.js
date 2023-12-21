@@ -4,7 +4,7 @@ const { generateParams, handleResponse } = require('../../utils/recipeUtils');
 
 const searchCache = new NodeCache({ stdTTL: 120, checkperiod: 60, maxSize: 200 });
 
-const getRecipesController = async (request, reply) => {
+const getHomepageRecipesController = async (request, reply) => {
   const params = generateParams(request);
   const queryString = generateQueryString(params);
 
@@ -16,4 +16,4 @@ const getRecipesController = async (request, reply) => {
   await handleResponse(config, queryString, searchCache, reply);
 };
 
-module.exports = getRecipesController;
+module.exports = getHomepageRecipesController;
