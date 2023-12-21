@@ -26,7 +26,7 @@ module.exports = (fastify, opts, done) => {
 
   fastify.route({
     method: 'GET',
-    url: '/homepage-recipes',
+    url: '/homepage',
     schema: getHomepageRecipesSchema,
     handler: getHomepageRecipesController,
   });
