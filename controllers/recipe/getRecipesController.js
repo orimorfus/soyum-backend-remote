@@ -2,7 +2,7 @@ const axios = require('axios');
 const NodeCache = require('node-cache');
 const generateQueryString = require('../../utils/queryStringUtils/generateQueryString');
 
-const searchCache = new NodeCache({ stdTTL: 3600, checkperiod: 3600, maxSize: 200 });
+const searchCache = new NodeCache({ stdTTL: 120, checkperiod: 60, maxSize: 200 });
 
 const getRecipesController = async (request, reply) => {
   const { keyword, mealType, random, imageSize, diet, health, cuisineType, dishType } =
