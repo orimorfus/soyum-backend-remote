@@ -63,7 +63,7 @@ const getRecipesController = async (request, reply) => {
         },
       })),
     };
-    searchCache.set(queryString, result, 3600000);
+    searchCache.set(queryString, result, 120);
     reply.send(result);
   }
 };
