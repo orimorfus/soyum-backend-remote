@@ -13,7 +13,7 @@ const getHomepageRecipesController = async (request, reply) => {
     url: `https://api.edamam.com/api/recipes/v2?${queryString}`,
   };
 
-  await handleResponse(config, queryString, searchCache, reply);
+  await handleResponse(config, queryString, searchCache, reply, 4);
 };
 
 module.exports = getHomepageRecipesController;

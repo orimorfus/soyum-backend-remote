@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-module.exports = async (config, queryString, searchCache, reply) => {
+module.exports = async (config, queryString, searchCache, reply, limit) => {
   let result = searchCache.get(queryString);
 
   if (result) {
@@ -10,7 +10,7 @@ module.exports = async (config, queryString, searchCache, reply) => {
     const filteredData = response.data.hits.filter(hit => hit.recipe.instructionLines.length > 0);
     result = {
       ...response.data,
-      hits: filteredData.slice(0, 4).map(hit => ({
+      hits: filteredData.slice(0, limit || filteredData.length).map(hit => ({
         ...hit,
         recipe: {
           ...hit.recipe,
